@@ -59,6 +59,9 @@ class Chat:
     
     def add_step(self, step: Step):
         self._steps.append(step)
+
+    def get_chat_history(self) -> str:
+        return "\n".join([f"{index + 1}: {step.get_question().value()} -> {step.get_answer().value()}" for index, step in enumerate(self._steps)])
     
     def remove_step(self, step: Step):
         self._steps.remove(step)

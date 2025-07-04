@@ -2,7 +2,7 @@ import uuid
 from datetime import datetime
 
 from app.usecase.ports.input.stream.chat_session import ChatSessionInputPort, ChatSessionInput, ChatSessionOutput, StepOutput
-from app.usecase.ports.output.llm.clint import LLMClient
+from app.usecase.ports.output.llm.client import LLMClient
 from app.domain.chat.repository.chat import ChatRepository
 from app.domain.chat.entity.chat import create_chat, create_step
 from app.domain.shared.value_object.id import create_id
@@ -29,7 +29,7 @@ class ChatSessionUseCase(ChatSessionInputPort):
             # 新規初回ループの場合
             if input.is_first and input.title is None and input.created_at is None and input.updated_at is None:
                 # タイトルを生成
-                title = self.llm_client.generate_response(input.current_question, GENERATE_TITLE_PROMPT)
+                title = self.llm_client.generate_response(input.current_question, GENERATE_TITLE_PROMPT, None)
                 # チャット値オブジェクトを作成
                 chat_id = create_id(str(uuid.uuid4()))
                 title = create_title(title)
@@ -70,7 +70,7 @@ class ChatSessionUseCase(ChatSessionInputPort):
                     chat.add_step(step)
         
             # 回答を生成
-            answer_raw = self.llm_client.generate_response(input.current_question, GENERATE_STEP_PROMPT)
+            answer_raw = self.llm_client.generate_response(input.current_question, GENERATE_STEP_PROMPT, chat.get_chat_history())
             # ステップを作成
             id = create_id(str(uuid.uuid4()))
             question = create_question(input.current_question)

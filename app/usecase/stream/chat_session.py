@@ -26,6 +26,9 @@ class ChatSessionInteractor(ChatSessionInputPort):
 
     def execute(self, input: ChatSessionInput) -> ChatSessionOutput:
         try:
+            chat = None
+            chat_id = None
+            
             # 新規初回ループの場合
             if input.is_first and input.title is None and input.created_at is None and input.updated_at is None:
                 # タイトルを生成
@@ -68,7 +71,10 @@ class ChatSessionInteractor(ChatSessionInputPort):
                     created_at = create_time(step.created_at)
                     step = create_step(id, chat_id, question, answer, created_at)
                     chat.add_step(step)
-        
+            else:
+                # 想定外の条件の場合
+                raise Exception("Invalid input conditions")
+
             # 回答を生成
             answer_raw = self.llm_client.generate_response(input.current_question, GENERATE_STEP_PROMPT, chat.get_chat_history())
             # ステップを作成

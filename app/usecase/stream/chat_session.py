@@ -19,7 +19,7 @@ GENERATE_STEP_PROMPT = """
 以下の質問に対して、適切な回答を生成してください。
 """
 
-class ChatSessionUseCase(ChatSessionInputPort):
+class ChatSessionInteractor(ChatSessionInputPort):
     def __init__(self, llm_client: LLMClient, chat_repository: ChatRepository):
         self.llm_client = llm_client
         self.chat_repository = chat_repository
@@ -92,5 +92,5 @@ class ChatSessionUseCase(ChatSessionInputPort):
         except Exception as e:
             raise Exception(f"Error generating response: {e}")
         
-def create_chat_session_usecase(llm_client: LLMClient, chat_repository: ChatRepository) -> ChatSessionUseCase:
-    return ChatSessionUseCase(llm_client, chat_repository)
+def create_chat_session_usecase(llm_client: LLMClient, chat_repository: ChatRepository) -> ChatSessionInputPort:
+    return ChatSessionInteractor(llm_client, chat_repository)

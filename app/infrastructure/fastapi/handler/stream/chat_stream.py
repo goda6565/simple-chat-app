@@ -6,6 +6,8 @@ from app.usecase.ports.input.stream.chat_session import ChatSessionInputPort, Ch
 # json:
 # chat_id: str
 # current_question: str
+# output:
+# answer: str
 
 class ChatStreamHandler:
     """WebSocket ストリーム用ハンドラ。

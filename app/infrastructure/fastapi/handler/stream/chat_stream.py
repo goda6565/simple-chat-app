@@ -54,3 +54,6 @@ class ChatStreamHandler:
             title = output.title
             created_at = output.created_at
             updated_at = output.updated_at
+
+def create_chat_stream_handler(chat_session_usecase: ChatSessionInputPort) -> ChatStreamHandler:
+    return ChatStreamHandler(chat_session_usecase)

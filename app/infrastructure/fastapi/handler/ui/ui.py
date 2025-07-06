@@ -91,3 +91,6 @@ class UIHandler:
         """
 
         return HTMLResponse(content=html_content, status_code=200)
+
+def create_ui_handler() -> UIHandler:
+    return UIHandler()
